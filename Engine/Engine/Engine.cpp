@@ -1,6 +1,6 @@
 #include "Engine.h"
 #include "Level/Level.h"
-//"../Level/Level.h" 설정을바꿔놔서 위처럼했음
+
 #include <iostream>
 #include <Windows.h>
 
@@ -12,6 +12,12 @@ namespace Wanted
 
 	Engine::~Engine()
 	{
+		// 메인 레벨 제거.
+		if (mainLevel)
+		{
+			delete mainLevel;
+			mainLevel = nullptr;
+		}
 	}
 
 	void Engine::Run()
@@ -102,18 +108,17 @@ namespace Wanted
 
 	void Engine::SetNewLevel(Level* newLevel)
 	{
-		//기존 레벨 있는지 확인. 알트+엔터 정의부만들기
-		//있으면 기존 레벨 제거.
-		//todo:임시 코드 레벨 전환할때는 바로 제거하면 안됨
+		// 기존 레벨 있는지 확인.
+		// 있으면 기존 레벨 제거.
+		// Todo: 임시 코드. 레벨 전환할 때는 바로 제거하면 안됨.
 		if (mainLevel)
 		{
 			delete mainLevel;
 			mainLevel = nullptr;
 		}
 
-		//레벨 설정
+		// 레벨 설정.
 		mainLevel = newLevel;
-
 	}
 
 	void Engine::ProcessInput()
@@ -123,15 +128,18 @@ namespace Wanted
 		for (int ix = 0; ix < 255; ++ix)
 		{
 			keyStates[ix].isKeyDown
-				= GetAsyncKeyState(ix) & (0x8000 > 0) ? true : false;
+				= GetAsyncKeyState(ix) & 0x8000 > 0 ? true : false;
 		}
 	}
 
 	void Engine::BeginPlay()
 	{
-		//레벨이 있으면 이벤트 전달
+		// 레벨이 있으면 이벤트 전달.
 		if (!mainLevel)
 		{
+			// Silent is violent.
+			// 침묵은 폭력이다.
+			// -> 로그 메시지 안남기면 나빠.
 			std::cout << "mainLevel is empty.\n";
 			return;
 		}
@@ -145,29 +153,33 @@ namespace Wanted
 		//	<< "DeltaTime: " << deltaTime
 		//	<< ", FPS: " << (1.0f / deltaTime) << "\n";
 
-		//// ESC키 눌리면 종료.
-		//if (GetKeyDown(VK_ESCAPE))
-		//{
-		//	QuitEngine();
-		//}
+		// ESC키 눌리면 종료.
+		if (GetKeyDown(VK_ESCAPE))
+		{
+			QuitEngine();
+		}
 
-		//레벨에 이벤트 흘리기
-		//예외처리
+		// 레벨에 이벤트 흘리기.
+		// 예외처리.
 		if (!mainLevel)
 		{
 			std::cout << "Error: Engine::Tick(). mainLevel is empty.\n";
 			return;
 		}
+
 		mainLevel->Tick(deltaTime);
 	}
 
 	void Engine::Draw()
 	{
+		// 레벨에 이벤트 흘리기.
+		// 예외처리.
 		if (!mainLevel)
 		{
 			std::cout << "Error: Engine::Draw(). mainLevel is empty.\n";
 			return;
 		}
+
 		mainLevel->Draw();
 	}
 }

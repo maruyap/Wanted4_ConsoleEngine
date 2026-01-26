@@ -29,22 +29,22 @@ namespace Wanted
 		// 입력 확인 함수.
 		// 이전에 입력이 안됐는데, 현재 입력이 됐으면 1번 호출.
 		bool GetKeyDown(int keyCode);
-
+		
 		// 이전에 입력이 됐는데, 현재 입력이 취소됐으면 1번 호출.
 		bool GetKeyUp(int keyCode);
-
+		
 		// 현재 눌려있으면 반복 호출.
 		bool GetKey(int keyCode);
 
-		// 새 레벨을 추가(설정)하는 함수
+		// 새 레벨을 추가(설정)하는 함수.
 		void SetNewLevel(class Level* newLevel);
 
 	private:
 		// 입력 처리 함수.
 		void ProcessInput();
 
-		// 게임 플레이 시작 함수
-		//unity의 경우: Start/Awake
+		// 게임 플레이 시작 함수.
+		// Unity의 경우: Start/Awake.
 		void BeginPlay();
 
 		// 업데이트 함수.
