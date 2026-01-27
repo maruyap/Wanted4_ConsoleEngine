@@ -2,7 +2,7 @@
 
 #include "Level.h"
 
-class __declspec(dllexport) TestLevel : public Wanted::Level
+class WANTED_API TestLevel : public Wanted::Level
 {
 public:
 	TestLevel();

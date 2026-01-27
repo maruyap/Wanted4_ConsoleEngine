@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Common/Common.h"
+
 namespace Wanted
 {
-	class __declspec(dllexport) Actor
+	class WANTED_API Actor
 	{
 	public:
 		Actor();

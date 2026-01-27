@@ -1,9 +1,11 @@
 #pragma once
 
+#include "Common/Common.h"
+
 namespace Wanted
 {
 	// Main game engine class.
-	class __declspec(dllexport) Engine
+	class WANTED_API Engine
 	{
 		// ตฅภฬลอ.
 		// Down/Up/Key

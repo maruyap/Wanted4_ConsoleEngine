@@ -2,7 +2,7 @@
 
 #include "Actor.h"
 
-class __declspec(dllexport) TestActor : public Wanted::Actor
+class WANTED_API TestActor : public Wanted::Actor
 {
 protected:
 	virtual void BeginPlay() override;
