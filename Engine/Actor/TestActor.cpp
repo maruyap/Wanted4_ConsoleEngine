@@ -1,4 +1,3 @@
-//TestActor.cpp
 #include "TestActor.h"
 #include <iostream>
 

@@ -1,4 +1,3 @@
-//Engine.cpp
 #include "Engine.h"
 #include "Level/Level.h"
 
@@ -129,7 +128,7 @@ namespace Wanted
 		for (int ix = 0; ix < 255; ++ix)
 		{
 			keyStates[ix].isKeyDown
-				= GetAsyncKeyState(ix) & 0x8000 > 0 ? true : false;
+				= (GetAsyncKeyState(ix) & 0x8000) > 0 ? true : false;
 		}
 	}
 

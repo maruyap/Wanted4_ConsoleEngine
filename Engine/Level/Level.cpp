@@ -1,7 +1,5 @@
-//Level.cpp
 #include "Level.h"
 #include "Actor/Actor.h"
-
 
 namespace Wanted
 {
