@@ -11,4 +11,3 @@ class Target : public Actor
 public:
 	Target(const Vector2& position);
 };
-

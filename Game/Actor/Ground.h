@@ -1,7 +1,9 @@
 #pragma once
+
 #include "Actor/Actor.h"
 
 using namespace Wanted;
+
 class Ground : public Actor
 {
 	RTTI_DECLARATIONS(Ground, Actor)
@@ -9,4 +11,3 @@ class Ground : public Actor
 public:
 	Ground(const Vector2& position);
 };
-

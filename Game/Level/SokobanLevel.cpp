@@ -1,4 +1,4 @@
-#include "TestLevel.h"
+#include "SokobanLevel.h"
 #include "Actor/Player.h"
 #include "Actor/Wall.h"
 #include "Actor/Ground.h"
@@ -14,7 +14,7 @@ b: 박스(Box)
 t: 타겟(Target)
 */
 
-TestLevel::TestLevel()
+SokobanLevel::SokobanLevel()
 {
 	// TestActor 액터를 레벨에 추가.
 	//AddNewActor(new Player());
@@ -22,7 +22,7 @@ TestLevel::TestLevel()
 	//LoadMap("Stage1.txt");
 }
 
-void TestLevel::LoadMap(const char* filename)
+void SokobanLevel::LoadMap(const char* filename)
 {
 	// 파일 로드.
 	// 최종 파일 경로 만들기. ("../Assets/filename")
@@ -77,6 +77,7 @@ void TestLevel::LoadMap(const char* filename)
 		// 캐릭터 읽기.
 		char mapCharacter = data[index];
 		++index;
+
 		// 개행 문자 처리.
 		if (mapCharacter == '\n')
 		{
@@ -86,14 +87,14 @@ void TestLevel::LoadMap(const char* filename)
 			position.x = 0;
 			continue;
 		}
-		
+
 		/*
-	#: 벽(Wall)
-	.: 바닥(Ground)
-	p: 플레이어(Player)
-	b: 박스(Box)
-	t: 타겟(Target)
-	*/
+		#: 벽(Wall)
+		.: 바닥(Ground)
+		p: 플레이어(Player)
+		b: 박스(Box)
+		t: 타겟(Target)
+		*/
 		// 한문자씩 처리.
 		switch (mapCharacter)
 		{
@@ -128,15 +129,37 @@ void TestLevel::LoadMap(const char* filename)
 			//std::cout << "T";
 			AddNewActor(new Target(position));
 			break;
-
 		}
 
 		// x 좌표 증가 처리.
 		++position.x;
 	}
+
 	// 사용한 버퍼 해제.
 	delete[] data;
 
 	// 파일이 정상적으로 열렸으면 닫기.
 	fclose(file);
+}
+
+bool SokobanLevel::CanMove(
+	const Wanted::Vector2& playerPosition, 
+	const Wanted::Vector2& nextPosition)
+{
+	// 레벨에 있는 박스 액터 모으기.
+	// 박스는 플레이어가 밀기 등 추가적으로 처리해야하기 때문.
+	std::vector<Actor*> boxes;
+
+	// 레벨에 배치된 전체 액터를 순회하면서 박스 찾기.
+	for (Actor* const actor : actors)
+	{
+		// 액터가 박스 타입인지 확인.
+		if (actor->IsTypeOf<Box>())
+		{
+			boxes.emplace_back(actor);
+			continue;
+		}
+	}
+
+	return false;
 }
