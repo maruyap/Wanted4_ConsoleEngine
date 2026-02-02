@@ -1,13 +1,29 @@
 #include "Engine.h"
 #include "Level/Level.h"
+#include "Core/Input.h"
+#include "Util/Util.h"
 
 #include <iostream>
 #include <Windows.h>
 
 namespace Wanted
 {
+	// 전역 변수 초기화.
+	Engine* Engine::instance = nullptr;
+
 	Engine::Engine()
 	{
+		// 전역 변수 값 초기화.
+		instance = this;
+
+		// 입력 관리자 생성.
+		input = new Input();
+
+		// 설정 파일 로드.
+		LoadSetting();
+
+		// 커서 끄기.
+		Util::TurnOffCursor();
 	}
 
 	Engine::~Engine()
@@ -17,6 +33,13 @@ namespace Wanted
 		{
 			delete mainLevel;
 			mainLevel = nullptr;
+		}
+
+		// 입력 관리자 제거.
+		if (input)
+		{
+			delete input;
+			input = nullptr;
 		}
 	}
 
@@ -38,9 +61,9 @@ namespace Wanted
 		currentTime = time.QuadPart;
 		previousTime = currentTime;
 
-		// 기준 프레임(단위: 초).
-		float targetFrameRate = 120.0f;
-		float oneFrameTime = 1.0f / targetFrameRate;
+		setting.framerate
+			= setting.framerate == 0.0f ? 60.0f : setting.framerate;
+		float oneFrameTime = 1.0f / setting.framerate;
 
 		// 엔진 루프(게임 루프).
 		// !->Not -> bool값 뒤집기.
@@ -61,7 +84,7 @@ namespace Wanted
 			// 고정 프레임 기법.
 			if (deltaTime >= oneFrameTime)
 			{
-				ProcessInput();
+				input->ProcessInput();
 
 				// 프레임 처리.
 				BeginPlay();
@@ -71,39 +94,23 @@ namespace Wanted
 				// 이전 시간 값 갱신.
 				previousTime = currentTime;
 
-				// 현재 입력 값을 이전 입력 값으로 저장.
-				for (int ix = 0; ix < 255; ++ix)
+				input->SavePreviousInputStates();
+
+				// 레벨에 요청된 추가/제거 처리.
+				if (mainLevel)
 				{
-					keyStates[ix].wasKeyDown
-						= keyStates[ix].isKeyDown;
+					mainLevel->ProcessAddAndDestroyActors();
 				}
 			}
 		}
 
-		// Todo: 정리 작업.
-		std::cout << "Engine has been shutdown....\n";
+		// 정리.
+		Shutdown();
 	}
 
 	void Engine::QuitEngine()
 	{
 		isQuit = true;
-	}
-
-	bool Engine::GetKeyDown(int keyCode)
-	{
-		return keyStates[keyCode].isKeyDown
-			&& !keyStates[keyCode].wasKeyDown;
-	}
-
-	bool Engine::GetKeyUp(int keyCode)
-	{
-		return !keyStates[keyCode].isKeyDown
-			&& keyStates[keyCode].wasKeyDown;
-	}
-
-	bool Engine::GetKey(int keyCode)
-	{
-		return keyStates[keyCode].isKeyDown;
 	}
 
 	void Engine::SetNewLevel(Level* newLevel)
@@ -121,15 +128,53 @@ namespace Wanted
 		mainLevel = newLevel;
 	}
 
-	void Engine::ProcessInput()
+	Engine& Engine::Get()
 	{
-		// 키 마다의 입력 읽기.
-		// !!! 운영체제가 제공하는 기능을 사용할 수 밖에 없음.
-		for (int ix = 0; ix < 255; ++ix)
+		// 예외처리.
+		if (!instance)
 		{
-			keyStates[ix].isKeyDown
-				= (GetAsyncKeyState(ix) & 0x8000) > 0 ? true : false;
+			// Silent is violent.
+			std::cout << "Error: Engine::Get(). instance is null\n";
+			__debugbreak();
 		}
+
+		return *instance;
+	}
+
+	void Engine::Shutdown()
+	{
+		// 정리 작업.
+		std::cout << "Engine has been shutdown....\n";
+
+		// 커서 켜기.
+		Util::TurnOnCursor();
+	}
+
+	void Engine::LoadSetting()
+	{
+		// 엔진 설정 파일 열기.
+		FILE* file = nullptr;
+		fopen_s(&file, "../Config/Setting.txt", "rt");
+
+		// 예외처리.
+		if (!file)
+		{
+			std::cout << "Failed to open engine setting file.\n";
+			__debugbreak();
+			return;
+		}
+
+		// 파일에서 읽은 데이터 담을 버퍼.
+		char buffer[2048] = {};
+
+		// 파일에서 읽기.
+		size_t readSize = fread(buffer, sizeof(char), 2048, file);
+
+		// 문자열 포맷 활용해서 데이터 추출.
+		sscanf_s(buffer, "framerate = %f", &setting.framerate);
+
+		// 파일 닫기.
+		fclose(file);
 	}
 
 	void Engine::BeginPlay()
@@ -153,11 +198,7 @@ namespace Wanted
 		//	<< "DeltaTime: " << deltaTime
 		//	<< ", FPS: " << (1.0f / deltaTime) << "\n";
 
-		// ESC키 눌리면 종료.
-		if (GetKeyDown(VK_ESCAPE))
-		{
-			QuitEngine();
-		}
+
 
 		// 레벨에 이벤트 흘리기.
 		// 예외처리.

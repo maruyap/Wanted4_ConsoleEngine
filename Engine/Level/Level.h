@@ -1,7 +1,6 @@
 #pragma once
-#pragma warning(disable: 4251)	// 미봉책(방법 없음).
 
-#include "Common/Common.h"
+#include "Common/RTTI.h"
 
 // STL(Standard Template Library - C++에서 기본 제공).
 // 크기가 알아서 변경되는 배열.
@@ -13,8 +12,10 @@ namespace Wanted
 	class Actor;
 
 	// 담당 임무: 레벨에 있는 모든 액터(물체) 관리.
-	class WANTED_API Level
+	class WANTED_API Level : public RTTI
 	{
+		RTTI_DECLARATIONS(Level, RTTI)
+
 	public:
 		Level();
 		virtual ~Level();
@@ -27,8 +28,14 @@ namespace Wanted
 		// 액터 추가 함수.
 		void AddNewActor(Actor* newActor);
 
+		// 액터 추가/제거 처리 함수.
+		void ProcessAddAndDestroyActors();
+
 	protected:
 		// 액터 배열.
 		std::vector<Actor*> actors;
+
+		// 실행 중에 추가 요청된 액터의 배열.
+		std::vector<Actor*> addRequestedActors;
 	};
 }
