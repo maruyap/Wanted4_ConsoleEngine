@@ -30,12 +30,6 @@
     <ClCompile Include="Math\Vector2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Render\ScreenBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -65,10 +59,7 @@
     <ClInclude Include="Util\Util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Render\Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\ScreenBuffer.h">
+    <ClInclude Include="Core\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

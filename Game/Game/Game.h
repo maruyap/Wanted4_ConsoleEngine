@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Engine/Engine.h"
 #include <vector>
 
@@ -20,7 +21,6 @@ public:
 	~Game();
 
 	// 메뉴/게임 레벨을 전환하는 함수.
-
 	void ToggleMenu();
 
 	static Game& Get();
@@ -35,4 +35,3 @@ private:
 	// 싱글톤 구현을 위한 정적 변수.
 	static Game* instance;
 };
-

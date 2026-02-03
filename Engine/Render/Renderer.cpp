@@ -13,12 +13,13 @@ namespace Wanted
 		sortingOrderArray = new int[bufferCount];
 		memset(sortingOrderArray, 0, sizeof(int) * bufferCount);
 	}
+
 	Renderer::Frame::~Frame()
 	{
 		SafeDeleteArray(charInfoArray);
 		SafeDeleteArray(sortingOrderArray);
-
 	}
+	
 	void Renderer::Frame::Clear(const Vector2& screenSize)
 	{
 		// 2차원 배열로 다루는 1차원 배열을 순회하면서
@@ -43,13 +44,14 @@ namespace Wanted
 			}
 		}
 	}
-	// ----------------------- Frame ----------------------//
-	
-	//정적 변수 초기화
+
+	// -------------- Frame -------------- //
+
+	// 정적 변수 초기화.
 	Renderer* Renderer::instance = nullptr;
 
 	Renderer::Renderer(const Vector2& screenSize)
-		:screenSize(screenSize)
+		: screenSize(screenSize)
 	{
 		instance = this;
 
@@ -60,7 +62,7 @@ namespace Wanted
 		// 프레임 초기화.
 		frame->Clear(screenSize);
 
-		// 이중 버퍼 객체 생성ㅍ및 초기화.
+		// 이중 버퍼 객체 생성 및 초기화.
 		screenBuffers[0] = new ScreenBuffer(screenSize);
 		screenBuffers[0]->Clear();
 
@@ -95,10 +97,13 @@ namespace Wanted
 				"Error",
 				MB_OK
 			);
+
 			__debugbreak();
 		}
-	}
 
+		return *instance;
+	}
+	
 	void Renderer::Clear()
 	{
 
@@ -117,4 +122,3 @@ namespace Wanted
 		return nullptr;
 	}
 }
-

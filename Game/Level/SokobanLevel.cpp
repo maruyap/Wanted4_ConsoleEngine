@@ -20,8 +20,8 @@ SokobanLevel::SokobanLevel()
 {
 	// TestActor 액터를 레벨에 추가.
 	//AddNewActor(new Player());
-	LoadMap("Stage3.txt");
-	//LoadMap("Stage1.txt");
+	//LoadMap("Map.txt");
+	LoadMap("Stage1.txt");
 }
 
 void SokobanLevel::Draw()
@@ -38,7 +38,6 @@ void SokobanLevel::Draw()
 		// 게임 클리어 메시지 출력.
 		std::cout << "Game Clear!";
 	}
-
 }
 
 void SokobanLevel::LoadMap(const char* filename)
@@ -201,11 +200,10 @@ bool SokobanLevel::CanMove(
 		// 두 위치 사이에서 이동 방향 구하기 (벡터의 뺄셈 활용).
 		// 이동 로직에서 두 벡터를 더한다는 것은
 		// 둘 중 하나는 위치(Location)이고 다른 하나는 벡터(Vector).
-
 		Vector2 direction = nextPosition - playerPosition;
 		Vector2 newPosition = boxActor->GetPosition() + direction;
-		
-		// 검색.
+
+		// 박스 검색.
 		for (Actor* const otherBox : boxes)
 		{
 			// 앞에서 검색한 박스와 같다면 건너뛰기.
@@ -222,9 +220,9 @@ bool SokobanLevel::CanMove(
 			}
 		}
 
+		// 검색.
 		for (Actor* const actor : actors)
 		{
-			
 			if (actor->GetPosition() == newPosition)
 			{
 				// #2: 벽이면 이동 불가.
@@ -246,7 +244,6 @@ bool SokobanLevel::CanMove(
 					// 플레이어 이동 가능.
 					return true;
 				}
-
 			}
 		}
 	}
@@ -255,7 +252,7 @@ bool SokobanLevel::CanMove(
 	// -> 이동하려는 곳에 있는 액터가 벽이 아니면 이동 가능.
 	for (Actor* const actor : actors)
 	{
-		//먼저, 이동하려는 위치에 있는 액터 검색.
+		// 먼저, 이동하려는 위치에 있는 액터 검색.
 		if (actor->GetPosition() == nextPosition)
 		{
 			// 이 액터가 벽인지 확인.
@@ -269,6 +266,7 @@ bool SokobanLevel::CanMove(
 		}
 	}
 
+	// 에러.
 	return false;
 }
 
@@ -284,6 +282,7 @@ bool SokobanLevel::CheckGameClear()
 	// 레벨에 배치된 배열 순회하면서 두 액터 필터링.
 	for (Actor* const actor : actors)
 	{
+		// 박스인 경우 박스 배열에 추가.
 		if (actor->IsTypeOf<Box>())
 		{
 			boxes.emplace_back(actor);

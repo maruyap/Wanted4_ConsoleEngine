@@ -1,9 +1,9 @@
 #include "MenuLevel.h"
 #include "Game/Game.h"
-#include "Core/input.h"
+#include "Core/Input.h"
 #include "Util/Util.h"
-
 #include <iostream>
+
 MenuLevel::MenuLevel()
 {
 	// 메뉴 아이템 생성.
@@ -15,7 +15,7 @@ MenuLevel::MenuLevel()
 			Game::Get().ToggleMenu();
 		}
 	));
-	
+
 	items.emplace_back(new MenuItem(
 		"Quit Game",
 		[]()
@@ -48,13 +48,13 @@ void MenuLevel::Tick(float deltaTime)
 	static int length = static_cast<int>(items.size());
 	if (Input::Get().GetKeyDown(VK_UP))
 	{
-		//인덱스 돌리기 (위 방향으로).
+		// 인덱스 돌리기 (위 방향으로).
 		currentIndex = (currentIndex - 1 + length) % length;
 	}
 
 	if (Input::Get().GetKeyDown(VK_DOWN))
 	{
-		//인덱스 돌리기.
+		// 인덱스 돌리기.
 		currentIndex = (currentIndex + 1) % length;
 	}
 
@@ -69,7 +69,7 @@ void MenuLevel::Tick(float deltaTime)
 		// 메뉴 토글.
 		Game::Get().ToggleMenu();
 
-		// 인덱스 초기화
+		// 인덱스 초기화.
 		currentIndex = 0;
 	}
 }

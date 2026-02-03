@@ -40,6 +40,7 @@ void Player::Tick(float deltaTime)
 		Game::Get().ToggleMenu();
 		return;
 	}
+
 	// QÅ° Á¾·á.
 	if (Wanted::Input::Get().GetKeyDown('Q'))
 	{

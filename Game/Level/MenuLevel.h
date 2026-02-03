@@ -29,12 +29,14 @@ struct MenuItem
 			text = nullptr;
 		}
 	}
+
 	// 메뉴 텍스트.
 	char* text = nullptr;
 
 	// 메뉴 선택됐을 때 실행될 로직(함수-함수 포인터).
 	OnSelected onSelected = nullptr;
 };
+
 class MenuLevel : public Level
 {
 	RTTI_DECLARATIONS(MenuLevel, Level)
@@ -54,7 +56,7 @@ private:
 	// 선택된 아이템의 색상.
 	Color selectedColor = Color::Green;
 
-	// 선택되지 않은  아이템의 색상.
+	// 선택되지 않은 아이템의 색상.
 	Color unselectedColor = Color::White;
 
 	// 메뉴 아이템 배열.

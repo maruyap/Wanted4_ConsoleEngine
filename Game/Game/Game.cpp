@@ -24,7 +24,7 @@ Game::Game()
 
 Game::~Game()
 {
-	// 중복 해제 방지.
+	// 중복 제거 방지.
 	mainLevel = nullptr;
 
 	// 모든 레벨 삭제.
@@ -41,7 +41,7 @@ Game::~Game()
 void Game::ToggleMenu()
 {
 	// 화면 지우기.
-	// system은 콘ㅅ돌 명령어 실행 함수. "cls" 명령어 실행
+	// system은 콘솔 명령어 실행 함수. "cls" 명령어 실행.
 	// cls -> clear screen.
 	system("cls");
 
@@ -50,7 +50,7 @@ void Game::ToggleMenu()
 	// 현재 활성 레벨 인덱스가 0이면 -> 1로.
 	// 마법의 공식 - (1-x) -> OneMinus
 	int stateIndex = (int)state;	// static_cast.
-	int nextState = 1 - stateIndex; // one - x.
+	int nextState = 1 - stateIndex;	// one - x.
 	state = (State)nextState;		// static_cast.
 
 	// 메인 레벨 변경.
@@ -59,6 +59,7 @@ void Game::ToggleMenu()
 
 Game& Game::Get()
 {
+	// 예외 처리.
 	if (!instance)
 	{
 		std::cerr << "Game::Get() - instance is null\n";
