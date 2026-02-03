@@ -81,7 +81,7 @@ void MenuLevel::Draw()
 	//Util::SetConsolePosition(Vector2::Zero);
 	//Util::SetConsoleTextColor(Color::White);
 	//
-	// 텍스트 출력.
+	//// 텍스트 출력.
 	//std::cout << "Sokoban Game\n\n";
 
 	Renderer::Get().Submit("Sokoban Game", Vector2::Zero);
@@ -98,6 +98,7 @@ void MenuLevel::Draw()
 			Vector2(0, 2 + ix),
 			textColor
 		);
+
 		// 색상 설정.
 		//Util::SetConsoleTextColor(textColor);
 

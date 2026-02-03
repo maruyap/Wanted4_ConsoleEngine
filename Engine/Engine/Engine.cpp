@@ -190,10 +190,10 @@ namespace Wanted
 			char header[10] = {};
 
 			// 문자열 읽기 함수 활용.
-			// 이때 "%s"로 읽으면 "스페이스가 있으면 거기까지 읽음.
+			// 이때 "%s"로 읽으면 스페이스가 있으면 거기까지 읽음.
 			sscanf_s(token, "%s", header, 10);
 
-			//문자열 비교 및 값 읽기.
+			// 문자열 비교 및 값 읽기.
 			if (strcmp(header, "framerate") == 0)
 			{
 				sscanf_s(token, "framerate = %f", &setting.framerate);

@@ -50,7 +50,7 @@ namespace Wanted
 
 	void Level::Draw()
 	{
-		// 액터에 이벤트 흘리기.
+		//// 액터에 이벤트 흘리기.
 		//for (Actor* actor : actors)
 		//{
 		//	// 같은 위치에 다른 액터가 있는지 확인하기 위함.

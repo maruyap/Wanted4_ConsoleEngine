@@ -7,8 +7,6 @@ using namespace Wanted;
 
 int main()
 {
-	
-
 	//Wanted::Engine engine;
 	//engine.SetNewLevel(new SokobanLevel());
 	//engine.Run();

@@ -41,8 +41,6 @@ namespace Wanted
 
 		// 렌더러에 데이터 제출.
 		Renderer::Get().Submit(image, position, color, sortingOrder);
-
-		
 	}
 
 	void Actor::SetPosition(const Vector2& newPosition)
@@ -50,11 +48,12 @@ namespace Wanted
 		// 렌더러에 빈칸 그리기 요청.
 		//Renderer::Draw(position, ' ');
 
-		// 변경하려는 위치가 현재 위치와 같으면 건너뜀.
+		// 변경하려는 위치가 현재 위치와 같으면 건너뀜.
 		if (position == newPosition)
 		{
 			return;
 		}
+
 		// 새로운 위치 설정.
 		position = newPosition;
 	}
